@@ -5,7 +5,6 @@ import SearchBar from './Components/SearchBar';
 import logo from './Assets/header_logo.png'
 import ComboBox from './Components/ComboBox';
 
-
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://cavrnydkhcwjgxgquyun.supabase.co'
