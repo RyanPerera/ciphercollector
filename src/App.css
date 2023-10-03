@@ -1,38 +1,73 @@
-.App {
-  text-align: center;
+html {
+  background-color: #f3f2e9;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background-image: url('Assets/header_bg_line.png');
+  background-repeat: no-repeat;
+  background-size: 200% 70%;
+  background-position: center -30vh;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  font-family: 'Oswald', sans-serif;
   align-items: center;
+}
+
+@media only screen and (max-width:768px) {
+  .app {
+    background-position: center -250px;
+  }
+}
+
+
+.header {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  align-self: center;
+  align-content: center;
 }
 
-.App-link {
-  color: #61dafb;
+
+.header img {
+  padding-top: 2vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.optionbox {
+  display: flex;
+  flex-direction: row;
+  gap: 2vh;
+  flex-wrap: wrap;
+  background-color: white;
+  border: 3px solid #AAAAAA;
+  margin-top: 4vh;
+  padding: 20px;
+  width: 80%;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.quickinfo {
+  position: relative;
+  top: 2vh;
+}
+
+.cardlist {
+  margin-top: 2vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  align-self: center;
 }

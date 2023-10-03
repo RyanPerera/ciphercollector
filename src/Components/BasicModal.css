@@ -1,0 +1,260 @@
+.cardbox {
+  display: flex;
+  flex-direction: row;
+  opacity: 75%;
+}
+
+.cardbox img {
+  width: 10vh;
+  opacity: 100%;
+  cursor: pointer;
+}
+
+.cardbox:hover {
+  z-index: 20;
+  opacity: 100%;
+  transform: scale(1.2);
+  transition: all 0.1s;
+}
+
+.cardboxlarge {
+  display: flex;
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  font-family: 'Oswald', sans-serif;
+}
+
+.hover-3d {
+  position: relative;
+}
+
+.hover-3d::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -40px;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+
+@media only screen and (max-width:768px) {
+  .cardboxlarge {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    filter: contrast(100%) brightness(100%);
+    opacity: 0%;
+  }
+
+  50% {
+    filter: contrast(900%) brightness(100%);
+    opacity: 40%;
+  }
+
+  100% {
+    filter: contrast(100%) brightness(100%);
+    opacity: 0%;
+  }
+}
+
+.noise {
+  display: block;
+  position: absolute;
+  width: 308px;
+  height: 431px;
+  border-radius: 14px;
+  z-index: 99;
+  opacity: 0%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 408 531' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  animation: shimmer 2s ease-in-out infinite;
+  animation-play-state: inherit;
+}
+
+@keyframes foilshimmer {
+  0% {
+    opacity: 0%;
+  }
+
+  50% {
+    opacity: 25%;
+  }
+
+  100% {
+    opacity: 0%;
+  }
+}
+
+.foil {
+  display: block;
+  position: absolute;
+  width: 308px;
+  height: 431px;
+  border-radius: 14px;
+  z-index: 999;
+
+  --space: 80px;
+
+  background-image: url("https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/galaxy.png"),
+    url("https://res.cloudinary.com/simey/image/upload/Dev/PokemonCards/galaxy.png"),
+    repeating-linear-gradient(82deg,
+      rgb(218, 56, 50) calc(var(--space) * 1),
+      rgb(219, 204, 86) calc(var(--space) * 2),
+      rgb(121, 199, 58) calc(var(--space) * 3),
+      rgb(58, 192, 183) calc(var(--space) * 4),
+      rgb(71, 98, 207) calc(var(--space) * 5),
+      rgb(170, 69, 209) calc(var(--space) * 6),
+      rgb(218, 56, 50) calc(var(--space) * 10)),
+    radial-gradient(farthest-corner circle at 0 0,
+      rgba(255, 255, 255, 0.6) 100%,
+      rgba(221, 221, 221, 0.6) 100%,
+      rgb(193, 193, 193) 100%);
+  background-blend-mode: color-dodge, color-burn, saturation, screen;
+  filter: brightness(1) contrast(1.2) saturate(1.5);
+  mix-blend-mode: color-dodge;
+  animation: foilshimmer 4s ease-in-out infinite;
+  opacity: 0%;
+  animation-play-state: inherit;
+}
+
+.effects {
+  display: block;
+  position: absolute;
+  width: 308px;
+  height: 431px;
+  border-radius: 14px;
+  z-index: 99;
+  animation-play-state: paused;
+
+}
+
+
+.effects:hover {
+  animation-play-state: running;
+}
+
+.holo {
+  display: block;
+  position: absolute;
+  width: 308px;
+  height: 431px;
+  border-radius: 14px;
+  z-index: 99;
+  opacity: 0%;
+  animation: holographic 3s ease-in-out infinite;
+  animation-play-state: inherit;
+  background: linear-gradient(45deg,
+      rgba(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgba(253, 255, 146, 0.858),
+      rgba(162, 241, 255, 0.657),
+      rgba(221, 169, 255, 0),
+      rgb(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgb(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgba(255, 186, 186, 0.382),
+      rgba(162, 241, 255, 0.657),
+      rgba(234, 255, 130, 0.382),
+      rgba(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgb(255, 163, 182),
+      rgb(194, 255, 182),
+      rgba(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgba(221, 169, 255, 0),
+      rgba(221, 169, 255, 0));
+  background-size: 350% 350%;
+  mix-blend-mode: overlay;
+}
+
+
+@keyframes holographic {
+  0% {
+    background-position: 0% 0%;
+    opacity: 0%;
+  }
+
+  25% {
+    background-position: 50% 0%;
+    opacity: 10%;
+  }
+
+  50% {
+    background-position: 100% 0%;
+    opacity: 20%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+    opacity: 0%;
+  }
+
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  font-size: xx-large;
+  font-weight: 700;
+  margin-bottom: 2vh;
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  color: gray
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.cardinfo {
+  display: flex;
+  flex-direction: column;
+  padding: 1% 1% 1% 5%;
+}
+
+.infobar {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.skills {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 1vh;
+}
+
+.skills img {
+  max-width: 60px;
+  max-height: 30px;
+  object-fit: cover;
+}
+
+.skill {
+  margin-top: 1vh;
+}
+
+.collection {
+  transition: ease 0.1s;
+  color: gray;
+}
+
+.collection:hover {
+  color: rgb(67, 218, 67);
+  border-color: rgb(67, 218, 67);
+  cursor: pointer;
+}
