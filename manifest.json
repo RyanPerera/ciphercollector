@@ -1,6 +1,6 @@
 {
-  "short_name": "CipherCollector",
-  "name": "CipherCollector",
+  "short_name": "Cipher Collector",
+  "name": "Cipher Collector",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
