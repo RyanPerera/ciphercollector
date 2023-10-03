@@ -17,4 +17,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
  - [ ] Complete search functionality
  - [ ] Visual overhaul of login/profile functions
  - [ ] Collection integration with Supabase
+ - [ ] Mobile version
  - [ ] Deck builder
