@@ -1,6 +1,6 @@
 # CipherCollector App
 
-https://ryanperera.github.io/CipherCollector/
+https://ryanperera.github.io/ciphercollector/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
