@@ -1,12 +1,11 @@
 .cardbox {
   display: flex;
   flex-direction: row;
-  opacity: 75%;
+  opacity: 100%;
 }
 
 .cardbox img {
   width: 10vh;
-  opacity: 100%;
   cursor: pointer;
 }
 
@@ -256,5 +255,15 @@
 .collection:hover {
   color: rgb(67, 218, 67);
   border-color: rgb(67, 218, 67);
+  cursor: pointer;
+}
+
+.collectionhave {
+  transition: ease 0.1s;
+  color: rgb(67, 218, 67);
+  border-color: rgb(67, 218, 67);
+}
+
+.collectionhave:hover {
   cursor: pointer;
 }

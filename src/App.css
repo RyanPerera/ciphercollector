@@ -39,6 +39,12 @@ html {
   padding-top: 2vh;
 }
 
+.profilemenu{
+  position: absolute;
+  right: 2vh;
+  top: 1vh;
+}
+
 
 .optionbox {
   display: flex;

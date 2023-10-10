@@ -4,7 +4,9 @@ import Modal from '@mui/material/Modal';
 import './BasicModal.css';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CloseIcon from '@mui/icons-material/Close';
+import Tooltip from '@mui/material/Tooltip';
 import Hover from './Hover';
+import supabase from '../supabase';
 
 const skillButtons = {
     "\\|AUTO\\|": `<img title='AUTO' style='display: inline-block; vertical-align: middle;' src="${require('../Assets/skillbuttons/AUTO.png')}"/>`,
@@ -75,6 +77,53 @@ export default function BasicModal(props) {
     const num = props.num.split('_')[0].replace("plus", "+")
 
 
+
+    async function addToCollection(user, card, amount) {
+        if (user !== "") {
+
+            const { data, error } = await supabase.from('collections')
+                .select()
+                .eq('user', user)
+                .eq('card', card)
+
+            if (error) { console.log(error) }
+
+            if (data.length === 0) {
+                await supabase.from('collections')
+                    .insert({ user: user, card: card, amount: amount })
+                console.log("Added to collection for user ", user)
+                props.addCard(props.id)
+            }
+            else {
+                console.log("Already in collection")
+            }
+
+        }
+        else {
+            console.log("Please login first")
+        }
+    }
+
+    async function removeFromCollection(user, card) {
+        if (user !== "") {
+            console.log(user, card)
+
+            const { error } = await supabase.from('collections')
+                .delete()
+                .eq('user', user)
+                .eq('card', card)
+            console.log("Removed card ", card, " from collection")
+            props.removeCard(props.id)
+
+            if (error) { console.log(error) }
+
+        }
+        else {
+            console.log("Please login first")
+        }
+    }
+
+
     function SkillText(text) {
         let replacedSkill = text.text.toString()
         let title = replacedSkill.replace(/^(?:\[[^\]]*\]|\|[^|]*\|)/, '').split(/[|:]/)
@@ -97,7 +146,8 @@ export default function BasicModal(props) {
 
     return (
         <div className='cardbox'>
-            <img src={props.url} alt={props.name} onClick={handleOpen} />
+            {props.have ? <img src={props.url} alt={props.name} onClick={handleOpen} /> :
+                <img src={props.url} alt={props.name} onClick={handleOpen} style={{ filter: ' brightness(90%) contrast(70%)' }} />}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -126,20 +176,34 @@ export default function BasicModal(props) {
                         </div>
 
                         <div className='infobar'>
-                            <Box sx={cstyle1} title="Set">
-                                {props.set}
-                            </Box>
-                            <Box sx={cstyle1} title="Card Number">
-                                {num}
-                            </Box>
-                            <Box sx={cstyle2} title="Rarity">
-                                {props.rarity}
-                            </Box>
+                            <Tooltip title="Set" placement="top">
+                                <Box sx={cstyle1}>
+                                    {props.set}
+                                </Box></Tooltip>
+                            <Tooltip title="Card Number" placement="top">
+                                <Box sx={cstyle1} >
+                                    {num}
+                                </Box></Tooltip>
+                            <Tooltip title="Rarity" placement="top">
+                                <Box sx={cstyle2} >
+                                    {props.rarity}
+                                </Box></Tooltip>
                         </div>
-                        <Box sx={cstyle3} title="Add to Collection" className='collection'>
-                            <CheckCircleOutlineIcon sx={{ position: 'relative', top: '5px', zIndex: '1' }} />
-                            In Collection
-                        </Box>
+                        {props.have ?
+                            <Tooltip title="Remove from Collection" placement="right">
+                                <Box sx={cstyle3} className='collectionhave'
+                                    onClick={() => removeFromCollection(props.user, props.id)}>
+                                    <CheckCircleOutlineIcon sx={{ position: 'relative', top: '5px', zIndex: '1' }} />
+                                    In Collection
+                                </Box>
+                            </Tooltip> :
+                            <Tooltip title="Add to Collection" placement="right">
+                                <Box sx={cstyle3} className='collection'
+                                    onClick={() => addToCollection(props.user, props.id, 1)}>
+                                    <CheckCircleOutlineIcon sx={{ position: 'relative', top: '5px', zIndex: '1' }} />
+                                    In Collection
+                                </Box>
+                            </Tooltip>}
 
                         <div className="skills">
                             {props.skill1 !== "-" ? <SkillText text={props.skill1} /> : <></>}
