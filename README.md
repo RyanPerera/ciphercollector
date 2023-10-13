@@ -17,6 +17,9 @@ https://ryanperera.github.io/ciphercollector/
  * Added pagination when searching
  * Refactored search tools
 
+ ### `10/12/2023`
+ * Overhaul of search functions, allowing for less strict searching by name, multi-select for other options
+
 ## Future Updates
  - [ ] Complete search functionality
  - [ ] Visual overhaul of login/profile functions

@@ -3,20 +3,29 @@ import './App.css'
 import BasicModal from './Components/BasicModal';
 import SearchBar from './Components/SearchBar';
 import logo from './Assets/header_logo.png'
-import ComboBox from './Components/ComboBox';
+//import ComboBox from './Components/ComboBox';
+import MultiBox from './Components/MultiBox';
 import TablePagination from '@mui/material/TablePagination';
 import supabase from './supabase';
-import ProfileMenu from './ProfileMenu';
-import { setSelector, variantSelector } from './Components/selectOptions'
+import ProfileMenu from './Components/ProfileMenu';
+import { setSelector, colourSelector, raritySelector } from './Components/selectOptions'
+
+const url = process.env.NODE_ENV === "development"
+  ? "http://localhost:3000/"
+  : "https://ryanperera.github.io/ciphercollector/";
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [uid, setUid] = useState("")
   const [rows, setRows] = useState([])
   const [coll, setColl] = useState([])
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [search, setSearch] = useState("lyn or lethe or mia or dimitri or marth");
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(50)
+
+  const [search, setSearch] = useState("")
+  const [set, setSet] = useState("")
+  const [rarity, setRarity] = useState("")
+  const [colour, setColour] = useState("")
 
   useEffect(() => {
     async function getSession() {
@@ -29,12 +38,26 @@ const App = () => {
     }
 
     async function getData() {
-      const { data } = await supabase.from('cipherdb')
+      let query = supabase.from('cipherdb')
         .select('id, Name, Set, Color, Rarity, Imagefile, imagefiledb(Url), Class, Type, Range, Attack, Support, Skill1, Skill2, Skill3, Skill4')
-        .textSearch('Name', `${search}`, {
-          type: 'websearch',
-          config: 'english'
-        });
+
+      if (search) {
+        query = query.ilike('Name', `%${search}%`);
+      }
+
+      if (set) {
+        query = query.in('Set', set.split(", "));
+      }
+
+      if (rarity) {
+        query = query.in('Rarity', rarity.split(", "));
+      }
+
+      if (colour) {
+        query = query.in('Color', colour.split(", "));
+      }
+
+      const { data } = await query;
       setRows(data);
     }
 
@@ -47,7 +70,8 @@ const App = () => {
 
     getSession()
     getData()
-  }, [uid, search]);
+    setPage(0)
+  }, [uid, search, set, colour, rarity]);
 
 
   function removeCard(id) {
@@ -68,7 +92,8 @@ const App = () => {
 
   const login = async (provider) => {
     await supabase.auth.signInWithOAuth({
-      provider: provider
+      provider: provider,
+      options: { redirectTo: url }
     })
   }
 
@@ -93,14 +118,15 @@ const App = () => {
 
       <div className='optionbox'>
         <SearchBar search={search} setSearch={setSearch} />
-        <ComboBox label="Set" selector={setSelector} width={100} />
-        <ComboBox label="+ Variants" selector={variantSelector} width={300} />
+        <MultiBox label="Set" selector={setSelector} width={300} setSet={setSet} />
+        <MultiBox label="Colour" selector={colourSelector} width={300} setColour={setColour} />
+        <MultiBox label="Rarity" selector={raritySelector} width={300} setRarity={setRarity} />
       </div>
 
       <div className='quickinfo'>
         <TablePagination
           component="div"
-          count={rows.length}
+          count={rows ? rows.length : 0}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

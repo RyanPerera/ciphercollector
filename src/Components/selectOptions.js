@@ -737,6 +737,40 @@ export const setSelector = [
     { label: 'S12' }
 ];
 
+export const colourSelector = [
+    { label: "Red/Blue" },
+    { label: "Purple" },
+    { label: "Yellow" },
+    { label: "Green" },
+    { label: "Red" },
+    { label: "Colorless" },
+    { label: "White" },
+    { label: "White/Black" },
+    { label: "Brown" },
+    { label: "Black" },
+    { label: "Blue" }
+]
+
+//Rarity options
+export const raritySelector = [
+    { label: "N" },
+    { label: "HN" },
+    { label: "R" },
+    { label: "SR" },
+    { label: "N+X" },
+    { label: "R+" },
+    { label: "R+X" },
+    { label: "SR+" },
+    { label: "ST" },
+    { label: "ST+" },
+    { label: "PR" },
+    { label: "PRr" },
+    { label: "PR+" },
+    { label: "HR" },
+    { label: "HNX" },
+    { label: "+X" },
+]
+
 //Variant options
 export const variantSelector = [
     { label: 'Show Both Variants' },

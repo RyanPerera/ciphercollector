@@ -9,6 +9,17 @@ export default function ComboBox(props) {
       id="combo-box-demo"
       options={props.selector}
       sx={{ width: props.width }}
+      onInputChange={(event, newInputValue) => {
+        if (props.label === "Set") {
+          props.setSet(newInputValue)
+        }
+        if (props.label === "Colour") {
+          props.setColour(newInputValue)
+        }
+        if (props.label === "Rarity") {
+          props.setRarity(newInputValue)
+        }
+      }}
       renderInput={(params) => <TextField {...params} label={props.label} />}
     />
   );
