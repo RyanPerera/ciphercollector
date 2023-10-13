@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/ciphercollector/static/css/main.587fb164.css",
-    "main.js": "/ciphercollector/static/js/main.59d912fe.js",
+    "main.js": "/ciphercollector/static/js/main.108502d2.js",
     "static/media/header_bg_line.png": "/ciphercollector/static/media/header_bg_line.aff02cbffac1f16819a5.png",
     "static/media/header_logo.png": "/ciphercollector/static/media/header_logo.ce433d50cfe2776a1a6e.png",
     "static/media/Tap.png": "/ciphercollector/static/media/Tap.a4ad893fae134c409581.png",
     "static/media/Activate.png": "/ciphercollector/static/media/Activate.4c65c1a1b945d86e9b2c.png",
     "index.html": "/ciphercollector/index.html",
     "main.587fb164.css.map": "/ciphercollector/static/css/main.587fb164.css.map",
-    "main.59d912fe.js.map": "/ciphercollector/static/js/main.59d912fe.js.map"
+    "main.108502d2.js.map": "/ciphercollector/static/js/main.108502d2.js.map"
   },
   "entrypoints": [
     "static/css/main.587fb164.css",
-    "static/js/main.59d912fe.js"
+    "static/js/main.108502d2.js"
   ]
 }
