@@ -207,7 +207,7 @@ export default function BasicModal(props) {
                                 </Box>
                             </Tooltip>}
 
-                        <div className="skills">
+                        <div className="skills" style={{paddingBottom: "5vh"}}>
                             {props.skill1 !== "-" ? <SkillText text={props.skill1} /> : <></>}
                             {props.skill2 !== "-" ? <SkillText text={props.skill2} /> : <></>}
                             {props.skill3 !== "-" ? <SkillText text={props.skill3} /> : <></>}
@@ -227,13 +227,14 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: '40vw',
     '@media (max-width: 760px)': {
-        width: '80%'
+        width: '80%',
+        marginBottom: '50px'
     },
     bgcolor: 'background.paper',
     boxShadow: 24,
     outline: 0,
     borderRadius: '12px',
-    p: 3,
+    p: 2.5,
     transition: 'all 0.3s',
     maxHeight: '100vh'
 
