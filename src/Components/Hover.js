@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useMediaQuery } from 'react-responsive';
 
 const defaultStyles = {
   transformStyle: "preserve-3d",
@@ -17,6 +18,15 @@ function Hover({
   onMouseMove = () => { },
   onMouseLeave = () => { }
 }) {
+
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 1224px)'
+  })
+  const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
+  const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
+
   const [tiltStyles, setTiltStyles] = useState(defaultStyles);
   const element = useRef();
   const width = useRef(0);
@@ -126,32 +136,51 @@ function Hover({
   };
 
   return (
-    <div
-      className="hover-3d"
-      style={{
-        ...style,
-        ...tiltStyles
-      }}
-      ref={element}
-      onMouseEnter={handleOnMouseEnter}
-      onMouseMove={handleOnMouseMove}
-      onMouseLeave={handleOnMouseLeave}
-    >
-      {children}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          marginRight: '-40px'
-        }}
-        onMouseMove={handleOnMouseMove}
-        onMouseLeave={handleOnMouseLeave}
-      />
-    </div>
+    <>
+      {isTabletOrMobile || isPortrait ?
+        <div style={{pointerEvents:"none"}}>
+          {children}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              marginRight: '-40px'
+            }}
+          />
+        </div> :
 
+        <div
+          className="hover-3d"
+          style={{
+            ...style,
+            ...tiltStyles
+          }}
+          ref={element}
+          onMouseEnter={handleOnMouseEnter}
+          onMouseMove={handleOnMouseMove}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          {children}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              marginRight: '-40px'
+            }}
+            onMouseMove={handleOnMouseMove}
+            onMouseLeave={handleOnMouseLeave}
+          />
+        </div>
+
+      }
+
+    </>
   );
 }
 

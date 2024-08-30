@@ -107,10 +107,8 @@ const App = () => {
   return (
     <div className='app' >
       <div className='profilemenu'>
-        <ProfileMenu name={user?.user_metadata.full_name} logout={logout} />
+        <ProfileMenu name={user?.user_metadata.full_name} googleLogin={() => login("google")} githubLogin={() => login("github")} logout={logout} />
       </div>
-      <button onClick={() => login("google")}>Login with Gmail</button>
-      <button onClick={() => login("github")}>Login with Github</button>
 
       <div className='header'>
         <img src={logo} alt="logo" />

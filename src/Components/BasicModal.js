@@ -26,6 +26,7 @@ const skillButtons = {
 }
 
 export default function BasicModal(props) {
+
     const [open, setOpen] = useState(false);
     const [foil, setFoil] = useState(false);
     const [holo, setHolo] = useState(false);
@@ -160,6 +161,7 @@ export default function BasicModal(props) {
                         <CloseIcon onClick={handleClose} />
                     </div>
 
+
                     <Hover >
                         <div className='effects'>
                             {foil ? <div className='foil' /> : <></>}
@@ -169,13 +171,13 @@ export default function BasicModal(props) {
                         <img src={props.url} alt={props.name} />
                     </Hover>
 
-                    <div className='cardinfo'>
+                    <div className='cardinfo' style={{ maxHeight: "40vh", overflow: "hidden", overflowY: "auto" }}>
                         <div className='title'>
                             {name[0]}<br />
                             <span style={{ fontSize: 'x-large', fontWeight: '400', color: '#111111' }}>{name[1]} </span>
                         </div>
 
-                        <div className='infobar'>
+                        <div className='infobar' style={{ flexWrap: "wrap" }}>
                             <Tooltip title="Set" placement="top">
                                 <Box sx={cstyle1}>
                                     {props.set}
@@ -223,16 +225,19 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '70vh',
+    width: '40vw',
+    '@media (max-width: 760px)': {
+        width: '80%'
+    },
     bgcolor: 'background.paper',
     boxShadow: 24,
     outline: 0,
     borderRadius: '12px',
-    p: 4,
-    transition: 'all 2s'
+    p: 3,
+    transition: 'all 0.3s',
+    maxHeight: '100vh'
 
 };
-
 
 const cstyle1 = {
     backgroundColor: '#15AAD7',
@@ -241,8 +246,6 @@ const cstyle1 = {
     color: 'white',
     border: 'solid 3px #0F7391',
     fontSize: 'larger',
-    width: '25px',
-    minWidth: 'fit-content',
     textAlign: 'center',
     borderRadius: '12px'
 }
@@ -253,8 +256,6 @@ const cstyle2 = {
     color: 'black',
     border: 'solid 3px #0F7391',
     fontSize: 'larger',
-    width: '25px',
-    minWidth: 'fit-content',
     textAlign: 'center',
     borderRadius: '12px'
 }

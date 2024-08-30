@@ -130,13 +130,13 @@
   height: 431px;
   border-radius: 14px;
   z-index: 99;
-  animation-play-state: paused;
+  /**animation-play-state: paused;**/
 
 }
 
 
 .effects:hover {
-  animation-play-state: running;
+  /**animation-play-state: running;**/
 }
 
 .holo {

@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import GoogleIcon from '@mui/icons-material/Google';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -71,27 +72,33 @@ export default function ProfileMenu(props) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClose} sx={{ justifyContent: 'center' }}>
                     {props.name}
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClose} sx={{ justifyContent: 'center' }}>
                     My Collection
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleClose}>
-                    <GoogleIcon>
+                <MenuItem onClick={() => props.googleLogin()} sx={{ justifyContent: 'left' }}>
+                    <GoogleIcon sx={{ paddingRight: "1vw" }}>
                         <Settings fontSize="small" />
                     </GoogleIcon>
-                    Login
+                    Google Login
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
+                <MenuItem onClick={() => props.githubLogin()} sx={{ justifyContent: 'left' }}>
+                    <GitHubIcon sx={{ paddingRight: "1vw" }}>
+                        <Settings fontSize="small" />
+                    </GitHubIcon>
+                    GitHub Login
+                </MenuItem>
+                <MenuItem onClick={handleClose} sx={{ justifyContent: 'left' }}>
+                    <ListItemIcon sx={{ paddingRight: "1vw" }} >
                         <Settings fontSize="small" />
                     </ListItemIcon>
                     Settings
                 </MenuItem>
-                <MenuItem onClick={() => { props.logout() }}>
-                    <ListItemIcon>
+                <MenuItem onClick={() => { props.logout() }} sx={{ justifyContent: 'left' }}>
+                    <ListItemIcon sx={{ paddingRight: "1vw" }}>
                         <Logout fontSize="small" />
                     </ListItemIcon>
                     Logout
