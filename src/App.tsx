@@ -10,7 +10,7 @@ import supabase from './supabase';
 import ProfileMenu from './Components/ProfileMenu';
 import { setSelector, colourSelector, raritySelector } from './Components/selectOptions'
 
-const url = process.env.NODE_ENV === "development"
+const url = import.meta.env.MODE === "development"
   ? "http://localhost:3000/"
   : "https://ryanperera.github.io/ciphercollector/";
 
