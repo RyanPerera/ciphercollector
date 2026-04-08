@@ -1,27 +1,64 @@
-import React from 'react';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
-import { characterNames } from './selectOptions';
+import React, { useState, useRef, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { characterNames } from "./selectOptions";
 
-export default function SearchBar({ setSearch }) {
+export default function SearchBar({ search, setSearch }) {
+  const [open, setOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const wrapperRef = useRef(null);
+
+  function handleChange(e) {
+    const v = e.target.value;
+    setSearch(v);
+    if (v.length > 0) {
+      setSuggestions(
+        characterNames
+          .map((o) => o.name)
+          .filter((n) => n.toLowerCase().includes(v.toLowerCase()))
+          .slice(0, 8),
+      );
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }
+
+  function handleSelect(name) {
+    setSearch(name);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <Stack spacing={2} sx={{ width: 300 }}>
-      <Autocomplete
-        id="search-bar"
-        freeSolo
-        options={characterNames.map((option) => option.name)}
-        onInputChange={(event, newInputValue) => {
-          setSearch(newInputValue)
-        }}
-        renderInput={(params) =>
-          <TextField {...params} label="Character Name"
-            onInput={(e) => {
-              setSearch(e.target.value)
-            }}
-          />}
+    <div ref={wrapperRef} className="relative w-[300px]">
+      <Input
+        placeholder="Character Name"
+        value={search}
+        onChange={handleChange}
+        onFocus={() => search.length > 0 && setOpen(true)}
       />
-    </Stack>
+      {open && suggestions.length > 0 && (
+        <ul className="absolute z-50 mt-1 w-full rounded-lg border border-border bg-popover py-1 shadow-md">
+          {suggestions.map((name) => (
+            <li
+              key={name}
+              className="cursor-pointer px-3 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"
+              onMouseDown={() => handleSelect(name)}
+            >
+              {name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

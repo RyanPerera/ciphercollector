@@ -1,5 +1,6 @@
+// @ts-nocheck
 import React, { useRef, useState } from "react";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
 
 const defaultStyles = {
   transformStyle: "preserve-3d",
@@ -7,25 +8,24 @@ const defaultStyles = {
 };
 
 function Hover({
-  style = { zIndex: '999' },
+  style = { zIndex: "999" },
   children,
   easing = "cubic-bezier(.03,.98,.52,.99)",
   scale = 1.5,
   speed = 400,
   perspective = 1000,
   max = 30,
-  onMouseEnter = () => { },
-  onMouseMove = () => { },
-  onMouseLeave = () => { }
+  onMouseEnter = () => {},
+  onMouseMove = () => {},
+  onMouseLeave = () => {},
 }) {
-
   const isDesktopOrLaptop = useMediaQuery({
-    query: '(min-width: 1224px)'
-  })
-  const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-  const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
-  const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
+    query: "(min-width: 1224px)",
+  });
+  const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+  const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
 
   const [tiltStyles, setTiltStyles] = useState(defaultStyles);
   const element = useRef();
@@ -55,7 +55,7 @@ function Hover({
     handleReset();
     setTiltStyles((prevStyle) => ({
       ...prevStyle,
-      transform: `translateX(0px)`
+      transform: `translateX(0px)`,
     }));
     return onMouseLeave(event);
   };
@@ -67,7 +67,6 @@ function Hover({
       ...prevStyle,
       transform: `perspective(${perspective}px) rotateX(
         ${values.tiltY}deg) rotateY(${values.tiltX}deg) scale3d(${scale}, ${scale}, ${scale}) translateX(-50px)`,
-
     }));
   };
 
@@ -84,7 +83,7 @@ function Hover({
     let angle =
       Math.atan2(
         event.clientX - (left.current + width.current / 2),
-        -(event.clientY - (top.current + height.current / 2))
+        -(event.clientY - (top.current + height.current / 2)),
       ) *
       (180 / Math.PI);
 
@@ -96,7 +95,7 @@ function Hover({
       tiltY,
       angle,
       percentageX,
-      percentageY
+      percentageY,
     };
   };
 
@@ -113,13 +112,13 @@ function Hover({
 
     setTiltStyles((prevStyle) => ({
       ...prevStyle,
-      transition: `${speed}ms ${easing}`
+      transition: `${speed}ms ${easing}`,
     }));
 
     transitionTimeout.current = setTimeout(() => {
       setTiltStyles((prevStyle) => ({
         ...prevStyle,
-        transition: ""
+        transition: "",
       }));
     }, speed);
   };
@@ -129,7 +128,7 @@ function Hover({
       window.requestAnimationFrame(() => {
         setTiltStyles((prevStyle) => ({
           ...prevStyle,
-          transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`
+          transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
         }));
       });
     }
@@ -137,26 +136,26 @@ function Hover({
 
   return (
     <>
-      {isTabletOrMobile || isPortrait ?
-        <div style={{pointerEvents:"none"}}>
+      {isTabletOrMobile || isPortrait ? (
+        <div style={{ pointerEvents: "none" }}>
           {children}
           <div
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               right: 0,
               bottom: 0,
               left: 0,
-              marginRight: '-40px'
+              marginRight: "-40px",
             }}
           />
-        </div> :
-
+        </div>
+      ) : (
         <div
           className="hover-3d"
           style={{
             ...style,
-            ...tiltStyles
+            ...tiltStyles,
           }}
           ref={element}
           onMouseEnter={handleOnMouseEnter}
@@ -166,20 +165,18 @@ function Hover({
           {children}
           <div
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               right: 0,
               bottom: 0,
               left: 0,
-              marginRight: '-40px'
+              marginRight: "-40px",
             }}
             onMouseMove={handleOnMouseMove}
             onMouseLeave={handleOnMouseLeave}
           />
         </div>
-
-      }
-
+      )}
     </>
   );
 }

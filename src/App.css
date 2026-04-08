@@ -9,12 +9,11 @@ html {
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  background-color: #f3f2e9;
   background-image: url('Assets/header_bg_line.png');
   background-repeat: no-repeat;
   background-size: 200% 70%;
   background-position: center -30vh;
-  font-family: 'Kdam Thmor Pro', sans-serif;
-  font-family: 'Oswald', sans-serif;
   align-items: center;
 }
 
@@ -39,41 +38,13 @@ html {
   padding-top: 2vh;
 }
 
-.profilemenu{
+.profilemenu {
   position: absolute;
   right: 2vh;
   top: 1vh;
 }
 
-
-.optionbox {
-  display: flex;
-  flex-direction: row;
-  gap: 2vh;
-  flex-wrap: wrap;
-  background-color: white;
-  border: 3px solid #AAAAAA;
-  margin-top: 4vh;
-  padding: 20px;
-  width: 80%;
-  border-radius: 12px;
-  justify-content: center;
-  align-items: center;
-}
-
 .quickinfo {
   position: relative;
   top: 2vh;
-}
-
-.cardlist {
-  margin-top: 2vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  align-self: center;
 }
