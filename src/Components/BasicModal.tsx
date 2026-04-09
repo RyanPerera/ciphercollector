@@ -6,21 +6,40 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
-import supabase from "../supabase";
+import {
+  Bookmark,
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  Minus,
+  Plus,
+} from "lucide-react";
 
 import AUTO from "../Assets/skillbuttons/AUTO.png";
 import Activate from "../Assets/skillbuttons/Activate.png";
 import Continuous from "../Assets/skillbuttons/Continuous.png";
+import AwakeningSkill from "../Assets/skillbuttons/AwakeningSkill.png";
+import BondSkill from "../Assets/skillbuttons/BondSkill.png";
+import CarnageForm from "../Assets/skillbuttons/CarnageForm.png";
 import CCS from "../Assets/skillbuttons/CCS.png";
+import CrestPower from "../Assets/skillbuttons/CrestPower.png";
+import DragonBlood from "../Assets/skillbuttons/DragonBlood.png";
+import FormationSkill from "../Assets/skillbuttons/FormationSkill.png";
 import HeroSkill from "../Assets/skillbuttons/HeroSkill.png";
+import IncreaseSkill from "../Assets/skillbuttons/IncreaseSkill.png";
+import LegendaryItemSkill from "../Assets/skillbuttons/LegendaryItemSkill.png";
+import LvSX from "../Assets/skillbuttons/LvSX.png";
 import OncePerTurn from "../Assets/skillbuttons/OncePerTurn.png";
+import Support from "../Assets/skillbuttons/Support.png";
 import Flip1 from "../Assets/skillbuttons/Flip1.png";
 import Flip2 from "../Assets/skillbuttons/Flip2.png";
 import Flip3 from "../Assets/skillbuttons/Flip3.png";
 import Tap from "../Assets/skillbuttons/Tap.png";
 import AtkDef from "../Assets/skillbuttons/AtkDef.png";
 import AttackSupport from "../Assets/skillbuttons/AttackSupport.png";
+import DefenseSupport from "../Assets/skillbuttons/DefenseSupport.png";
+import TwinSkill from "../Assets/skillbuttons/TwinSkill.png";
+import UnionSkill from "../Assets/skillbuttons/UnionSkill.png";
 import Hover from "./Hover";
 import { H1, H2, Lead, Muted, P } from "@/components/ui/typography";
 import { Button } from "./ui/button";
@@ -56,10 +75,61 @@ const skillButtonMap: { pattern: RegExp; src: string; label: string }[] = [
   { pattern: /\|AUTO\|/gi, src: AUTO, label: "AUTO" },
   { pattern: /\|ACT\|/gi, src: Activate, label: "ACT" },
   { pattern: /\|CONT\|/gi, src: Continuous, label: "CONT" },
+  {
+    pattern: /\|AWAKENING SKILL\||\[AWAKENING SKILL\]|\[AS\]|\|AS\|/gi,
+    src: AwakeningSkill,
+    label: "Awakening Skill",
+  },
+  {
+    pattern: /\|BOND SKILL\||\[BOND SKILL\]|\[BS\]|\|BS\|/gi,
+    src: BondSkill,
+    label: "Bond Skill",
+  },
+  {
+    pattern: /\|CARNAGE FORM\||\[CARNAGE FORM\]|\[CF\]|\|CF\|/gi,
+    src: CarnageForm,
+    label: "Carnage Form",
+  },
   { pattern: /\|CCS\|/gi, src: CCS, label: "CCS" },
   { pattern: /\[CCS\]/gi, src: CCS, label: "CCS" },
-  { pattern: /\[HS\]/gi, src: HeroSkill, label: "HS" },
+  {
+    pattern: /\|CREST POWER\||\[CREST POWER\]|\[CP\]|\|CP\|/gi,
+    src: CrestPower,
+    label: "Crest Power",
+  },
+  {
+    pattern: /\|DRAGON BLOOD\||\[DRAGON BLOOD\]|\[DB\]|\|DB\|/gi,
+    src: DragonBlood,
+    label: "Dragon Blood",
+  },
+  {
+    pattern: /\|FORMATION SKILL\||\[FORMATION SKILL\]|\[FS\]|\|FS\|/gi,
+    src: FormationSkill,
+    label: "Formation Skill",
+  },
+  { pattern: /\[HS\]/gi, src: HeroSkill, label: "Hero Skill" },
+  {
+    pattern: /\|INCREASE SKILL\||\[INCREASE SKILL\]|\[IS\]|\|IS\|/gi,
+    src: IncreaseSkill,
+    label: "Increase Skill",
+  },
+  {
+    pattern:
+      /\|LEGENDARY ITEM SKILL\||\[LEGENDARY ITEM SKILL\]|\[LIS\]|\|LIS\|/gi,
+    src: LegendaryItemSkill,
+    label: "Legendary Item Skill",
+  },
+  {
+    pattern: /\|LVS ?X\||\[LVS ?X\]|\[LVSX\]|\|LVSX\|/gi,
+    src: LvSX,
+    label: "Level Up Skill",
+  },
   { pattern: /\[Once Per Turn\]/gi, src: OncePerTurn, label: "Once Per Turn" },
+  {
+    pattern: /\|SUPP\||\[SUPP\]|\[SUPPORT\]|\|SUPPORT\|/gi,
+    src: Support,
+    label: "SUPPORT",
+  },
   {
     pattern: /Flip 1 Bond face-down/gi,
     src: Flip1,
@@ -78,15 +148,36 @@ const skillButtonMap: { pattern: RegExp; src: string; label: string }[] = [
   { pattern: /Tap this unit/gi, src: Tap, label: "Tap this unit" },
   { pattern: /\|ATK\/DEF SUPP\|/gi, src: AtkDef, label: "ATK/DEF SUPP" },
   { pattern: /\|ATK SUPP\|/gi, src: AttackSupport, label: "ATK SUPP" },
+  { pattern: /\|DEF SUPP\|/gi, src: DefenseSupport, label: "DEF SUPP" },
+  {
+    pattern: /\|TWIN SKILL\||\[TWIN SKILL\]|\[TS\]|\|TS\|/gi,
+    src: TwinSkill,
+    label: "Twin Skill",
+  },
+  {
+    pattern: /\|UNION SKILL\||\[UNION SKILL\]|\[US\]|\|US\|/gi,
+    src: UnionSkill,
+    label: "Union Skill",
+  },
 ];
 
 function tokenizeSkill(raw: string): SkillToken[] {
-  const title = raw
-    .replace(/^(?:\[[^\]]*\]|\|[^|]*\|)/, "")
-    .split(/[|:]/)[0]
-    .trim();
+  // Some card text stores the title delimiter as a newline followed by a colon.
+  // Normalize that shape so title parsing and highlighting remain consistent.
+  const normalizedRaw = raw
+    .replace(/\r\n/g, "\n")
+    .replace(/\n+\s*[:：]\s*/g, ": ");
 
-  let tokens: SkillToken[] = [{ kind: "text", value: raw }];
+  const titleSource = normalizedRaw
+    .trimStart()
+    .replace(/^(?:(?:\[[^\]]*\]|\|[^|]*\|)\s*)+/, "")
+    .trimStart();
+  const titleMatch =
+    titleSource.match(/^([^:|]+?)(?=\s*[:：|])/) ??
+    titleSource.match(/^([^:|]+)$/);
+  const title = titleMatch?.[1]?.trim() ?? "";
+
+  let tokens: SkillToken[] = [{ kind: "text", value: normalizedRaw }];
 
   for (const { pattern, src, label } of skillButtonMap) {
     tokens = tokens.flatMap((t) => {
@@ -117,6 +208,25 @@ function tokenizeSkill(raw: string): SkillToken[] {
     });
   }
 
+  // Remove delimiter artifacts like ': ' that can appear at the start of
+  // description segments after title/icon tokenization.
+  tokens = tokens
+    .map((token, index) => {
+      if (token.kind !== "text") return token;
+
+      const shouldStripLeadingDelimiter =
+        /^\s*[:：]\s*/.test(token.value) &&
+        (index === 0 || tokens[index - 1]?.kind === "bold");
+
+      if (!shouldStripLeadingDelimiter) return token;
+
+      return {
+        ...token,
+        value: token.value.replace(/^\s*[:：]\s*/, ""),
+      };
+    })
+    .filter((token) => token.kind !== "text" || token.value.length > 0);
+
   return tokens;
 }
 
@@ -133,9 +243,11 @@ export default function BasicModal(props: {
   skill3: string;
   skill4: string;
   user: string;
-  have: boolean;
-  removeCard: () => void;
-  addCard: () => void;
+  amount: number;
+  isWishlisted: boolean;
+  removeCard: () => Promise<void>;
+  addCard: () => Promise<void>;
+  toggleWishlist: () => Promise<void>;
   allCards: any[];
   isOpen: boolean;
   onOpenCard: (cardId: string) => void;
@@ -146,6 +258,8 @@ export default function BasicModal(props: {
   const [noise, setNoise] = useState(false);
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const [modalImageLoaded, setModalImageLoaded] = useState(false);
+  const [isUpdatingCollection, setIsUpdatingCollection] = useState(false);
+  const [isUpdatingWishlist, setIsUpdatingWishlist] = useState(false);
   const modalFallbackUrl = getThumbnailFallbackUrl(props.url);
 
   useEffect(() => {
@@ -251,42 +365,38 @@ export default function BasicModal(props: {
   name[1] = name[1].trimStart();
   const num = props.num.split("_")[0].replace("plus", "+");
 
-  async function addToCollection(user, card, amount) {
-    if (user !== "") {
-      const { data, error } = await supabase
-        .from("collections")
-        .select()
-        .eq("user", user)
-        .eq("card", card);
-      if (error) {
-        console.log(error);
-      }
-      if (data.length === 0) {
-        await supabase.from("collections").insert({ user, card, amount });
-        console.log("Added to collection for user ", user);
-        props.addCard();
-      }
-    } else {
-      console.log("Please login first");
-    }
-  }
+  const inCollection = props.amount > 0;
 
-  async function removeFromCollection(user, card) {
-    if (user !== "") {
-      const { error } = await supabase
-        .from("collections")
-        .delete()
-        .eq("user", user)
-        .eq("card", card);
-      if (error) {
-        console.log(error);
-      }
-      console.log("Removed card ", card);
-      props.removeCard();
-    } else {
-      console.log("Please login first");
+  const handleCollectionChange = async (action: () => Promise<void>) => {
+    if (!props.user || isUpdatingCollection) return;
+
+    setIsUpdatingCollection(true);
+
+    try {
+      await action();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUpdatingCollection(false);
     }
-  }
+  };
+
+  const handleWishlistToggle = async (
+    event?: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event?.stopPropagation();
+    if (!props.user || isUpdatingWishlist) return;
+
+    setIsUpdatingWishlist(true);
+
+    try {
+      await props.toggleWishlist();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUpdatingWishlist(false);
+    }
+  };
 
   function SkillText({ text }: { text: string }) {
     const tokens = tokenizeSkill(text);
@@ -318,6 +428,23 @@ export default function BasicModal(props: {
   return (
     <div className="flex flex-row">
       <div className="relative h-[14.3vh] w-[10vh]" onClick={handleOpen}>
+        <button
+          type="button"
+          aria-label={
+            props.isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+          }
+          title={
+            props.isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+          }
+          className={`absolute right-1 top-1 z-20 rounded-full p-1 transition-colors ${props.isWishlisted ? "bg-yellow-100 text-yellow-500" : "bg-zinc-100/90 text-zinc-400"}`}
+          onClick={handleWishlistToggle}
+          disabled={isUpdatingWishlist}
+        >
+          <Bookmark
+            className="size-4"
+            fill={props.isWishlisted ? "currentColor" : "none"}
+          />
+        </button>
         {!thumbnailLoaded && (
           <Skeleton className="absolute inset-0 h-[14.3vh] w-[10vh] rounded-sm bg-zinc-300" />
         )}
@@ -328,7 +455,7 @@ export default function BasicModal(props: {
           decoding="async"
           onLoad={() => setThumbnailLoaded(true)}
           onError={() => setThumbnailLoaded(true)}
-          className={`absolute inset-0 h-[14.3vh] w-[10vh] object-cover transition-opacity duration-150 ${thumbnailLoaded ? "opacity-100" : "opacity-0"}${props.have ? "" : " brightness-90 contrast-75"}`}
+          className={`absolute inset-0 h-[14.3vh] w-[10vh] object-cover transition-opacity duration-150 ${thumbnailLoaded ? "opacity-100" : "opacity-0"}${inCollection ? "" : " brightness-90 contrast-75"}`}
         />
       </div>
       <Dialog
@@ -347,6 +474,12 @@ export default function BasicModal(props: {
           showCloseButton={true}
         >
           <DialogTitle className="sr-only">{props.name}</DialogTitle>
+          <button
+            type="button"
+            tabIndex={0}
+            aria-label="Modal focus target"
+            className="sr-only focus:outline-none focus-visible:ring-0"
+          />
 
           <div className="relative shrink-0 self-center md:self-start">
             <Hover>
@@ -422,37 +555,86 @@ export default function BasicModal(props: {
               </Tooltip>
             </div>
 
-            <div className="self-start">
-              {props.have ? (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Button
-                      className="mt-4 py-4 inline-flex h-8 items-center gap-1 rounded-full border-[3px] border-[#43da43] px-4 text-[1.75rem] leading-none font-medium text-[#43da43] transition duration-100"
-                      onClick={() => removeFromCollection(props.user, props.id)}
-                    >
-                      <CheckCircle className="relative top-px size-4" />
-                      <Muted className="m-0 text-inherit">In Collection</Muted>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right">
-                    Remove from Collection
-                  </TooltipContent>
-                </Tooltip>
+            <div className="mt-4 self-start inline-flex items-center gap-2">
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={`bg-white inline-flex h-8 w-8 rounded-full border-[3px] transition duration-100 ${props.isWishlisted ? "border-yellow-500 text-yellow-600 hover:border-yellow-500 hover:text-yellow-600" : "border-zinc-300 text-zinc-500 hover:border-yellow-500 hover:text-yellow-600"}`}
+                    disabled={isUpdatingWishlist}
+                    onClick={handleWishlistToggle}
+                  >
+                    <Bookmark
+                      className="size-4"
+                      fill={props.isWishlisted ? "currentColor" : "none"}
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  {props.isWishlisted
+                    ? "Remove from wishlist"
+                    : "Add to wishlist"}
+                </TooltipContent>
+              </Tooltip>
+              {inCollection ? (
+                <div className="inline-flex items-center gap-2 rounded-full border-[3px] border-[#43da43] bg-white px-2 py-1 text-[#43da43]">
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        className="rounded-full border border-[#43da43] text-[#43da43] hover:bg-[#43da43]/10 hover:text-[#43da43]"
+                        disabled={isUpdatingCollection}
+                        onClick={() => handleCollectionChange(props.removeCard)}
+                      >
+                        <Minus className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="top">
+                      Remove one from Collection
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <div className="flex min-w-24 items-center justify-center gap-2 px-2">
+                    <Muted className="m-0 text-inherit">
+                      {props.amount} in Collection
+                    </Muted>
+                  </div>
+
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        className="rounded-full border border-[#43da43] text-[#43da43] hover:bg-[#43da43]/10 hover:text-[#43da43]"
+                        disabled={isUpdatingCollection}
+                        onClick={() => handleCollectionChange(props.addCard)}
+                      >
+                        <Plus className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="top">
+                      Add one to Collection
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
               ) : (
                 <Tooltip>
                   <TooltipTrigger>
                     <Button
                       variant="outline"
-                      className="mt-4 py-4 inline-flex h-8 items-center gap-1 rounded-full border-[3px] border-zinc-300 px-4 leading-none text-zinc-500 transition duration-100 hover:border-[#43da43] hover:text-[#43da43]"
-                      onClick={() => addToCollection(props.user, props.id, 1)}
+                      className="bg-white inline-flex h-8 items-center gap-1 rounded-full border-[3px] border-zinc-300 px-4 leading-none text-zinc-500 transition duration-100 hover:border-[#43da43] hover:text-[#43da43]"
+                      disabled={isUpdatingCollection}
+                      onClick={() => handleCollectionChange(props.addCard)}
                     >
                       <CheckCircle className="relative top-px size-4" />
-                      <Muted className="m-0 text-inherit">In Collection</Muted>
+                      <Muted className="m-0 text-inherit">
+                        Add to Collection
+                      </Muted>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent side="right">
-                    Add to Collection
-                  </TooltipContent>
+                  <TooltipContent side="top">Add to Collection</TooltipContent>
                 </Tooltip>
               )}
             </div>

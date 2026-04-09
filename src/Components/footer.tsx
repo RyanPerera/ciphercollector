@@ -1,0 +1,46 @@
+"use client";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  Linkedin01FreeIcons,
+  Github01FreeIcons,
+} from "@hugeicons/core-free-icons";
+import { Muted } from "./ui/typography";
+
+export function Footer() {
+  return (
+    <div className="mt-auto flex w-full justify-end p-5 mx-auto max-w-8xl items-center gap-3 justify-self-end">
+      <Muted>Developed by Ryan Perera</Muted>
+      <a
+        href="https://www.linkedin.com/in/ryan-perera/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <HugeiconsIcon
+          icon={Linkedin01FreeIcons}
+          size={24}
+          color="currentColor"
+          strokeWidth={1.5}
+        />
+      </a>
+
+      <br />
+
+      <a href="https://github.com/RyanPerera" target="_blank" rel="noreferrer">
+        <HugeiconsIcon
+          icon={Github01FreeIcons}
+          size={24}
+          color="currentColor"
+          strokeWidth={1.5}
+        />
+      </a>
+      <a href="https://ko-fi.com/F1F41K1WBN" target="_blank" rel="noreferrer">
+        <img
+          height="36"
+          style={{ border: 0, height: "36px" }}
+          src="https://storage.ko-fi.com/cdn/kofi6.png?v=6"
+          alt="Buy Me a Coffee at ko-fi.com"
+        />
+      </a>
+    </div>
+  );
+}

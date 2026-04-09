@@ -20,13 +20,20 @@ export interface Card {
   Skill4: string;
 }
 
+export type CollectionFilter = "all" | "in" | "out";
+
 interface UseCardQueryParams {
   search: string;
   set: string;
   rarity: string;
   colour: string;
+  collectionFilter: CollectionFilter;
+  collectionCardIds: string[];
+  inWishlistOnly: boolean;
+  wishlistCardIds: string[];
   page: number;
   rowsPerPage: number;
+  enabled?: boolean;
 }
 
 interface UseCardQueryResult {
@@ -39,13 +46,47 @@ export function useCardQuery({
   set,
   rarity,
   colour,
+  collectionFilter,
+  collectionCardIds,
+  inWishlistOnly,
+  wishlistCardIds,
   page,
   rowsPerPage,
+  enabled = true,
 }: UseCardQueryParams) {
   return useQuery({
-    queryKey: ["cards", { search, set, rarity, colour, page, rowsPerPage }],
+    queryKey: [
+      "cards",
+      {
+        search,
+        set,
+        rarity,
+        colour,
+        collectionFilter,
+        collectionCardIds,
+        inWishlistOnly,
+        wishlistCardIds,
+        page,
+        rowsPerPage,
+      },
+    ],
     placeholderData: keepPreviousData,
+    enabled,
     queryFn: async (): Promise<UseCardQueryResult> => {
+      if (collectionFilter === "in" && collectionCardIds.length === 0) {
+        return {
+          cards: [],
+          totalCount: 0,
+        };
+      }
+
+      if (inWishlistOnly && wishlistCardIds.length === 0) {
+        return {
+          cards: [],
+          totalCount: 0,
+        };
+      }
+
       let query = supabase
         .from("cipherdb")
         .select(
@@ -69,6 +110,24 @@ export function useCardQuery({
         query = query.in("Color", colour.split(", "));
       }
 
+      if (collectionFilter === "in") {
+        query = query.in(
+          "id",
+          collectionCardIds.map((cardId) => Number(cardId)),
+        );
+      }
+
+      if (collectionFilter === "out" && collectionCardIds.length > 0) {
+        query = query.not("id", "in", `(${collectionCardIds.join(",")})`);
+      }
+
+      if (inWishlistOnly) {
+        query = query.in(
+          "id",
+          wishlistCardIds.map((cardId) => Number(cardId)),
+        );
+      }
+
       if (rowsPerPage > 0) {
         const start = page * rowsPerPage;
         const end = start + rowsPerPage - 1;
@@ -85,6 +144,7 @@ export function useCardQuery({
       const cards =
         (data as any[])?.map((card) => ({
           ...card,
+          id: String(card.id),
           imagefiledb: Array.isArray(card.imagefiledb)
             ? card.imagefiledb[0]
             : card.imagefiledb,

@@ -6,9 +6,11 @@ import type { Card } from "../hooks/useCardQuery";
 interface CardResultsProps {
   cards: Card[];
   userId: string;
-  collectionIds: Set<string>;
-  onAddToCollection: (id: string) => void;
-  onRemoveFromCollection: (id: string) => void;
+  collectionAmounts: Map<string, number>;
+  wishlistIds: Set<string>;
+  onAddToCollection: (id: string) => Promise<void>;
+  onRemoveFromCollection: (id: string) => Promise<void>;
+  onToggleWishlist: (id: string) => Promise<void>;
   rowsPerPage: number;
   isLoading: boolean;
 }
@@ -24,9 +26,11 @@ function CardSlotSkeleton() {
 export default memo(function CardResults({
   cards,
   userId,
-  collectionIds,
+  collectionAmounts,
+  wishlistIds,
   onAddToCollection,
   onRemoveFromCollection,
+  onToggleWishlist,
   rowsPerPage,
   isLoading,
 }: CardResultsProps) {
@@ -55,9 +59,11 @@ export default memo(function CardResults({
               skill3={card.Skill3}
               skill4={card.Skill4}
               user={userId}
-              have={collectionIds.has(card.id)}
+              amount={collectionAmounts.get(card.id) ?? 0}
+              isWishlisted={wishlistIds.has(card.id)}
               removeCard={() => onRemoveFromCollection(card.id)}
               addCard={() => onAddToCollection(card.id)}
+              toggleWishlist={() => onToggleWishlist(card.id)}
               allCards={cards}
               isOpen={openCardId === card.id}
               onOpenCard={(cardId) => setOpenCardId(cardId)}
